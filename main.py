@@ -3,8 +3,7 @@ from vosk import Model, KaldiRecognizer, SetLogLevel
 import wave
 import audioop
 import json
-from word import Word
-from deepsegment import DeepSegment
+import nlp_tools
 
 # download required:  brew install ffmpeg
 def mp3_to_wav(source):
@@ -65,27 +64,38 @@ while True:
         results.append(part_result)
 part_result = json.loads(rec.FinalResult())
 results.append(part_result)
-print(results)
 
 # convert list of JSON dictionaries to list of 'Word' objects
 list_of_words = []
 list_of_text = []
 for sentence in results:
-    if len(sentence) == 1:
-        # sometimes there are bugs in recognition
-        # and it returns an empty dictionary
-        # {'text': ''}
-        continue
-    for obj in sentence["result"]:
-        w = Word(obj)  # create custom Word object
-        list_of_words.append(w)  # and add it to list
+    # if len(sentence) == 1:
+    #     # sometimes there are bugs in recognition
+    #     # and it returns an empty dictionary
+    #     # {'text': ''}
+    #     continue
+    # for obj in sentence["result"]:
+    #     w = Word(obj)  # create custom Word object
+    #     list_of_words.append(w)  # and add it to list
     list_of_text.append(sentence["text"])  # and add it to list
 
 wf.close()  # close audiofile
 
-# output to the screen
-for word in list_of_words:
-    print(word.to_string())
+text = ''
 # output to the screen
 for sent in list_of_text:
+    text = text + sent + ' '
     print(sent)
+
+
+sentences = nlp_tools.sentence_segment(text)
+question_indices = nlp_tools.get_list_question_indices(sentences, ['you need casual english', 'you want to talk to your coworkers '])
+answer_lists = nlp_tools.get_list_answer_indices(sentences, question_indices)
+q_and_a = {}
+print(question_indices)
+for i in range(len(question_indices)):
+    q_and_a_pair = {}
+    q_and_a_pair['question'] = sentences[question_indices[i]]
+    q_and_a_pair['answer'] = answer_lists[i]
+    q_and_a[i] = q_and_a_pair
+print(q_and_a)
