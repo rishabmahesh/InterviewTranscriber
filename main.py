@@ -3,7 +3,7 @@ from vosk import Model, KaldiRecognizer, SetLogLevel
 import wave
 import audioop
 import json
-import nlp_tools
+from nlp_tools import NLP_Tools
 
 # download required:  brew install ffmpeg
 def mp3_to_wav(source):
@@ -87,15 +87,10 @@ for sent in list_of_text:
     text = text + sent + ' '
     print(sent)
 
+language = 'en'
+sentence_model = 'all-MiniLM-L6-v2'
+nlp_tool = NLP_Tools(language, sentence_model)
 
-sentences = nlp_tools.sentence_segment(text)
-question_indices = nlp_tools.get_list_question_indices(sentences, ['you need casual english', 'you want to talk to your coworkers '])
-answer_lists = nlp_tools.get_list_answer_indices(sentences, question_indices)
-q_and_a = {}
-print(question_indices)
-for i in range(len(question_indices)):
-    q_and_a_pair = {}
-    q_and_a_pair['question'] = sentences[question_indices[i]]
-    q_and_a_pair['answer'] = answer_lists[i]
-    q_and_a[i] = q_and_a_pair
+questions = ['you need casual english', 'you want to talk to your coworkers ']
+q_and_a = nlp_tool.get_questions_and_answers(text, questions)
 print(q_and_a)
