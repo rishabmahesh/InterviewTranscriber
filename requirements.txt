@@ -2,3 +2,5 @@ pydub== 0.25.1
 vosk== 0.3.32
 nnsplit==0.5.8.post0
 sentence-transformers==2.2.0
+punctuator==0.9.6
+Cython==0.29.28

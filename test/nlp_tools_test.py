@@ -4,19 +4,22 @@ from nlp_tools import NLP_Tools, InvalidQuestionError
 class nlp_tools_test(unittest.TestCase):
 
     def setUp(self):
-        self.nlp_tool = NLP_Tools('en', 'all-MiniLM-L6-v2')
-        self.sentence_one = 'what is your favorite color '
-        self.sentence_two = 'my favorite color is yellow '
-        self.sentence_three = 'there are so many colors in the rainbow that we learn about in school '
-        self.sentence_four = 'i like the color purple and my least favorite color is black '
+        self.nlp_tool = NLP_Tools('Demo-Europarl-EN.pcl', 'all-MiniLM-L6-v2')
+        self.sentence_one = 'can you tell me when was the last time you went to the movies '
+        self.sentence_two = 'the last time i went to the movies was three years ago '
+        self.sentence_three = 'there are so many different movies playing which made it hard to pick one '
+        self.sentence_four = 'i think we watched a comedy but i do not remember the name of it '
         self.sentence_five = 'can you tell me how many days are there in one year '
         self.sentence_six = 'i do not think there are enough days in a year '
 
     def test_sentence_segment(self):
         sentences = self.sentence_one + self.sentence_two
         segmented = self.nlp_tool.sentence_segment(sentences)
-        self.assertEqual(self.sentence_one, segmented[0])
-        self.assertEqual(self.sentence_two, segmented[1])
+        print(segmented)
+        for s in segmented:
+            print(s)
+        self.assertEqual('Can you tell me when was the last time you went to the movies? ', segmented[0])
+        self.assertEqual('The last time I went to the movies was three years ago.', segmented[1])
 
     def test_find_question_index(self):
         index = self.nlp_tool.find_question_index(
@@ -73,8 +76,8 @@ class nlp_tools_test(unittest.TestCase):
         self.assertIsNotNone(q_and_a[1])
         with self.assertRaises(KeyError):
             q_and_a[2]
-        self.assertEqual(questions[0], q_and_a[0]['question'])
-        self.assertEqual(questions[1], q_and_a[1]['question'])
+        self.assertEqual('Can you tell me when was the last time you went to the movies? ', q_and_a[0]['question'])
+        self.assertEqual('Can you tell me how many days are there in one year? ' , q_and_a[1]['question'])
         self.assertEqual(3, len(q_and_a[0]['answer']))
         self.assertEqual(1, len(q_and_a[1]['answer']))
 

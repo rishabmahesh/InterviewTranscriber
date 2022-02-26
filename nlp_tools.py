@@ -1,4 +1,6 @@
 from nnsplit import NNSplit
+from punctuator import Punctuator
+
 from sentence_transformers import SentenceTransformer, util
 
 
@@ -8,18 +10,21 @@ class InvalidQuestionError(Exception):
 
 class NLP_Tools:
 
-    def __init__(self, language, model):
+    def __init__(self, punct_language, sent_model):
         """
         Parameters:
           language : the language for the sentence segmenter
           model : model for the sentence transformer
         """
 
-        self.splitter = NNSplit.load(language)
-        self.model = SentenceTransformer(model)
+        self.punctuator = Punctuator(punct_language)
+        self.splitter = NNSplit.load('en')
+        self.model = SentenceTransformer(sent_model)
 
     def sentence_segment(self, text):
-        split = self.splitter.split([text])[0]
+        split = self.punctuator.punctuate(text)
+        split = self.splitter.split([split])[0]
+        print(split)
         sentences = []
         for sentence in split:
             sentences.append(str(sentence))

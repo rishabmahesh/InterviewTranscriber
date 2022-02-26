@@ -87,9 +87,9 @@ for sent in list_of_text:
     text = text + sent + ' '
     print(sent)
 
-language = 'en'
+punct_model = 'Demo-Europarl-EN.pcl'
 sentence_model = 'all-MiniLM-L6-v2'
-nlp_tool = NLP_Tools(language, sentence_model)
+nlp_tool = NLP_Tools(punct_model, sentence_model)
 
 questions = ['you need casual english', 'you want to talk to your coworkers ']
 q_and_a = nlp_tool.get_questions_and_answers(text, questions)
