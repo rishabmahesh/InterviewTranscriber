@@ -71,10 +71,10 @@ class NLP_Tools:
         sentences = self.sentence_segment(text)
         question_indices = self.get_list_question_indices(sentences, questions)
         answer_lists = self.get_list_answer_indices(sentences, question_indices)
-        q_and_a = {}
+        q_and_a = []
         for i in range(len(question_indices)):
             q_and_a_pair = {}
             q_and_a_pair['question'] = sentences[question_indices[i]]
             q_and_a_pair['answer'] = answer_lists[i]
-            q_and_a[i] = q_and_a_pair
+            q_and_a.append(q_and_a_pair)
         return q_and_a

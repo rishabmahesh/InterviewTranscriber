@@ -74,7 +74,7 @@ class nlp_tools_test(unittest.TestCase):
         print(q_and_a)
         self.assertIsNotNone(q_and_a[0])
         self.assertIsNotNone(q_and_a[1])
-        with self.assertRaises(KeyError):
+        with self.assertRaises(IndexError):
             q_and_a[2]
         self.assertEqual('Can you tell me when was the last time you went to the movies? ', q_and_a[0]['question'])
         self.assertEqual('Can you tell me how many days are there in one year? ' , q_and_a[1]['question'])
