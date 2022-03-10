@@ -1,5 +1,6 @@
 from nnsplit import NNSplit
 from punctuator import Punctuator
+import spacy
 
 from sentence_transformers import SentenceTransformer, util
 
@@ -20,6 +21,7 @@ class NLP_Tools:
         self.punctuator = Punctuator(punct_language)
         self.splitter = NNSplit.load('en')
         self.model = SentenceTransformer(sent_model)
+        self.nlp = spacy.load('en_core_web_lg')
 
     def sentence_segment(self, text):
         split = self.punctuator.punctuate(text)
@@ -78,3 +80,15 @@ class NLP_Tools:
             q_and_a_pair['answer'] = answer_lists[i]
             q_and_a.append(q_and_a_pair)
         return q_and_a
+
+    def get_ner(self, text):
+        doc = self.nlp(text)
+        ners = []
+        for ent in doc.ents:
+            ner = {}
+            ner['label'] = ent.label_
+            ner['start_index'] = ent.start_char
+            ner['end_index'] = ent.end_char
+            ners.append(ner)
+            #print(ent.text, ent.start_char-ent.sent.start_char, ent.end_char-ent.sent.start_char, ent.label_)
+        return ners

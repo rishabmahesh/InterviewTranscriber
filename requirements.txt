@@ -6,3 +6,4 @@ punctuator==0.9.6
 Cython==0.29.28
 Flask==2.0.2
 Flask-Cors==3.0.10
+spacy==3.2.0

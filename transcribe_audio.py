@@ -76,3 +76,21 @@ class Transcriber:
         wf.close()  # close audiofile
 
         return text
+
+if __name__ == '__main__':
+    # model_path = "model/vosk-model-en-us-0.22"
+    # audio_filename = "audio/M_0399_12y4m_1.wav" #can comment out this line when testing complete
+    #
+    # transcriber = Transcriber(model_path)
+    # text = transcriber.transcribe(audio_filename)
+    # print(text)
+    import spacy
+    #nlp = spacy.load('en_core_web_trf')
+    nlp = spacy.load('en_core_web_lg')
+
+    doc = nlp('i had practice today from nine to eleven o\'clock. on monday i went to his house at noon. on tuesday i went to his house at one in the afternoon.')
+    for ent in doc.ents:
+        #gets index in doc
+        print(ent.text, ent.start_char, ent.end_char)
+        #gets index in sentence
+        print(ent.text, ent.start_char-ent.sent.start_char, ent.end_char-ent.sent.start_char, ent.label_)

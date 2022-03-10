@@ -17,3 +17,5 @@ To activate the server:
     - For Windows: 'venv\Scripts\activate.bat'
 - Install dependencies using 'pip install -r requirements.txt'.
 - Start server by running 'python3 server.py' from the root directory.
+
+for spacy, run python3 -m spacy download en_core_web_trf
