@@ -1,0 +1,2 @@
+You did not include any comments in your test/nlp_tools_test.py file. I do not know which function is doing what very easily. I will have to read the function and try to figure out what each function is doing. Please include some comments in this file. 
+Same problem with nlp_tools.py. I do not know what each function is doing. You have also not organized your code in any way. The server.py, and nlp_model.py all are in the same place. Segregating them into folders would help both the reader and you in the long run. 
